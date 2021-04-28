@@ -17,6 +17,7 @@ export enum TypesNames {
 	SET_PRODUCT = 'SET_PRODUCT',
 	PRODUCT_ERROR = 'PRODUCT_ERROR',
 	LOAD_PRODUCT = 'LOAD_PRODUCT',
+	DELETE_PRODUCT='DELETE_PRODUCT',
 }
 
 export interface ActionCreator {
@@ -27,6 +28,7 @@ export interface ActionCreator {
 	updateProduct: (product: Product) => UpdateProductAction;
 	setProduct: (product: Product) => SetProductAction;
 	loadProduct: () => Action<TypesNames.LOAD_PRODUCT>;
+	deleteProduct: (product: Product) => deleteProductAction;	
 }
 
 export interface SetProductsAction extends Action<TypesNames.SET_PRODUCTS> {
@@ -42,6 +44,10 @@ export interface CreateProductAction extends Action<TypesNames.CREATE_PRODUCT> {
 export interface UpdateProductAction extends Action<TypesNames.UPDATE_PRODUCT> {
 	product: Product;
 }
+export interface deleteProductAction extends Action<TypesNames.DELETE_PRODUCT> {
+	product: Product;
+}
+
 export interface SetProductAction extends Action<TypesNames.SET_PRODUCT> {
 	product: Product;
 }

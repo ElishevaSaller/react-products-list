@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom';
 interface Props {
 	product: Product;
 	translate: TranslateFunction;
+	handledeleteProduct :(product:Product)=>void,
 }
 
 const ProductView: React.FC<Props> = (props: Props) => {
-	const { product, translate } = props;
+	const { product, translate,handledeleteProduct} = props;
 	return (
 		<Card>
 			<Card.Header> {product.name}</Card.Header>
@@ -18,6 +19,7 @@ const ProductView: React.FC<Props> = (props: Props) => {
 				{product.description}
 				<br />
 				<Link to={{ pathname: `product/${product.id}` }}> {translate('products.updateProduct')}</Link>
+				<button  onClick={()=>handledeleteProduct(product)}>{translate('products.deleteProduct')}</button>
 			</Card.Body>
 			<Card.Img src={product.picture} />
 		</Card>

@@ -1,16 +1,16 @@
-import Immutable, { ImmutableObject, from } from 'seamless-immutable';
+import Immutable, {  from } from 'seamless-immutable';
 import { createReducer, createActions } from 'reduxsauce';
 import { ApplicationState } from '../index';
 import {
-	ProductState, TypesNames, ActionCreator, SetProductsAction, SetFilterProductAction, SetProductAction, Product
+	ProductState,deleteProductAction, TypesNames, ActionCreator, SetProductsAction, SetFilterProductAction, SetProductAction, Product
 } from './interfaces';
 import { AnyAction } from 'redux';
 import { sortBy, includes, isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 import { persistReducer } from 'redux-persist';
 import localStorage from 'redux-persist/lib/storage';
-import sessionStorage from 'redux-persist/lib/storage/session';
 import isEqual from 'lodash/isEqual';
+
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -22,6 +22,7 @@ const { Creators } = createActions<TypesNames, ActionCreator>({
 	updateProduct: ['product'],
 	setProduct: ['product'],
 	loadProduct: [],
+	deleteProduct:['product']
 });
 
 export const ProductTypes = TypesNames;
@@ -47,10 +48,6 @@ const getFilter = (state: ApplicationState) => state.product.filter;
 const getIsInStock = (state: ApplicationState) => state.product.filter.inStockOnly;
 const getFilterText = (state: ApplicationState) => state.product.filter.filterText;
 const getFilterTextId = (state: ApplicationState) => state.product.filter.filterTextId;
-
-
-
-
 const getProductsList = (products: Product[], inStockOnly: boolean, filterText: string,filterTextId:string) => {
 	return products.filter((product: Product) => {
 		if (!isProductContainsText(product, filterText)) return false;
@@ -99,6 +96,16 @@ const setProductsReducer = (state: ProductState, action: SetProductsAction) => {
 	});
 };
 
+const deleteProduct = (state: ProductState, action: deleteProductAction) => {
+	 const {product}=action;
+	 const products=state.products.filter(p=>p.id!=product.id)
+		
+	 return from(state).merge({
+		 ...state,products
+	 })
+};
+
+
 const setFilterProductReducer = (state: ProductState, action: SetFilterProductAction) => {
 	const { filter } = action;
 	return from(state).merge({ filter });
@@ -128,6 +135,7 @@ const productReducer = createReducer<any, AnyAction>(INITIAL_STATE, {
 	[ProductTypes.SET_PRODUCT]: setProductReducer,
 	[ProductTypes.PRODUCT_ERROR]: setErrorReducer,
 	[ProductTypes.LOAD_PRODUCT]: setLoadReducer,
+	[ProductTypes.DELETE_PRODUCT]:deleteProduct
 });
 
 const persistConfig = {

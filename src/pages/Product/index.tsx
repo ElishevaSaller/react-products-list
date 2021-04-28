@@ -17,6 +17,7 @@ interface OwnProps {
 	translate: TranslateFunction;
 	createProduct: (product: Product) => void;
 	updateProduct: (Product: Product) => void;
+	deleteProduct: (Product: Product) => void;	
 }
 
 interface Params {
@@ -177,5 +178,6 @@ export default baseConnect(ProductForm,
 		return {
 			createProduct: (product: Product) => dispatch(ProductActions.createProduct(product)),
 			updateProduct: (product: Product) => dispatch(ProductActions.updateProduct(product)),
+			deleteProduct: (product: Product) => dispatch(ProductActions.deleteProduct(product)),
 		};
 	});
