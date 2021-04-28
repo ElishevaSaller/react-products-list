@@ -1,4 +1,4 @@
-import { Action } from 'redux';
+import { Action } from 'redux'; 
 
 export interface ProductState {
 	products: Product[];
@@ -60,4 +60,7 @@ export class Product {
 export interface ProductFilter {
 	inStockOnly: boolean;
 	filterText: string;
+	filterTextId: string;
 }
+
+

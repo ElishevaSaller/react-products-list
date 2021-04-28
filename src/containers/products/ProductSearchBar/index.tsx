@@ -6,11 +6,13 @@ interface Props {
 	inStockOnly: boolean;
 	onFilterTextChange: (text: string) => void;
 	onInStockChange: (inStock: boolean) => void;
+	filterTextId: string;
+	onFilterTextIdChange: (id: string) => void;
 }
 
 const ProductSearchBar: React.FC<Props> = (props: Props) => {
 	const {
-		filterText, inStockOnly, onFilterTextChange, onInStockChange
+		filterText, inStockOnly, onFilterTextChange, onInStockChange,filterTextId,onFilterTextIdChange
 	} = props;
 
 	function handleFilterTextChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -21,6 +23,12 @@ const ProductSearchBar: React.FC<Props> = (props: Props) => {
 		const value: boolean = e.target.checked as any as boolean;
 		onInStockChange(value);
 	}
+
+	function handleFilterTextIdChange(e: React.ChangeEvent<HTMLInputElement>) {
+		onFilterTextIdChange(e.target.value.toString());
+	}
+
+
 	return (
 		<Form>
 			<Form.Group>
@@ -31,6 +39,15 @@ const ProductSearchBar: React.FC<Props> = (props: Props) => {
 					onChange={handleFilterTextChange}
 				/>
 			</Form.Group>
+			<Form.Group>
+				<Form.Control
+					type="text"
+					placeholder="Find..."
+					value={filterTextId}
+					onChange={handleFilterTextIdChange}
+				/>
+			</Form.Group>
+			
 
 			<Form.Group>
 				<Form.Check
